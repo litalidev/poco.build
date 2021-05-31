@@ -23,6 +23,7 @@ before_build:
   - git clone https://github.com/pocoproject/poco.git
   - cd poco
   - git checkout %version_tag%
+  - cd ..
 
 
 build_script:
