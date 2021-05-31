@@ -1,5 +1,17 @@
 version: poco-1.10.2-release
 
+image:
+  - Visual Studio 2017
+
+platform:
+  - x64
+  #- x86
+
+configuration:
+  - Release
+  #- Debug
+
+
 install:
   - cinst cmake
 
