@@ -13,7 +13,7 @@ configuration:
 
 
 install:
-  - cinst cmake
+    #- cinst cmake
 
 before_build:
   - git clone https://github.com/pocoproject/poco.git
