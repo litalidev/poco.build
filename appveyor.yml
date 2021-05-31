@@ -1,5 +1,9 @@
-version: poco-1.10.2-release
+#version: poco-1.10.1-release
+#
 
+init:
+    - set version=1.10.1
+    - set version_tag=poco-%version%-release
 image:
   - Visual Studio 2017
 
@@ -18,7 +22,7 @@ configuration:
 before_build:
   - git clone https://github.com/pocoproject/poco.git
   - cd poco
-  - git checkout %version%
+  - git checkout %version-tag%
 
 
 build_script:
