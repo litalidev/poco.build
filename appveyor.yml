@@ -54,7 +54,7 @@ after_build:
   - 7z a poco-appveyor-%version%-x86-debug-build.zip   poco-x86-debug.build
 
     #- 7z l poco-appveyor-%version_tag%-x64-release.zip
-  - 7z l poco-appveyor-%version%-x86-release.zip
+  - 7z l poco-appveyor-%version%-x86-release-build.zip
 
 
 test_script:
