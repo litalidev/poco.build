@@ -39,3 +39,6 @@ after_build:
   - 7z a poco-appveyor-%version_tag%-x64-release.zip poco-x64-release.build
   - 7z l poco-appveyor-%version_tag%-x64-release.zip
 
+artifacts:
+    - path: '**\*.zip'
+
