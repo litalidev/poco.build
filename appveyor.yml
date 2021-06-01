@@ -55,6 +55,12 @@ after_build:
     #- 7z l poco-appveyor-%version_tag%-x64-release.zip
   - 7z l poco-appveyor-%version%-x86-release.zip
 
+
+test_script:
+  - cmake --install poco-x64-release.build 
+  - cd c:\
+  - dir/s c:\usr
+
 artifacts:
     - path: '**\poco-appveyor-*.zip'
 
