@@ -30,5 +30,12 @@ build_script:
   - set
   #- set PATH=C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\bin;%PATH%
   - cmake --version
-  - cmake -S poco -Bpoco.build -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -S poco -Bpoco-x64-release.build -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
   #- cmake --build poco.build 
+  #
+
+after_script:
+    dir/s poco-x64-release.build
+    7z a poco-appveyor-%version_tag%-x64-release.zip poco-x64-release.build
+    7z l poco-appveyor-%version_tag%-x64-release.zip
+
