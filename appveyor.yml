@@ -2,8 +2,13 @@
 #
 
 init:
-    - set version=1.10.1
-    - set version_tag=poco-%version%-release
+  - set version=1.10.1
+  - set version_tag=poco-%version%-release
+
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2015" ( set generator=Visual Studio 14 2015)
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2017" ( set generator=Visual Studio 15 2017)
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2019" ( set generator=Visual Studio 16 2019)
+
 image:
   - Visual Studio 2017
 
@@ -15,10 +20,6 @@ configuration:
   - Release
   #- Debug
 
-init:
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2015" ( set generator=Visual Studio 14 2015)
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2017" ( set generator=Visual Studio 15 2017)
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2019" ( set generator=Visual Studio 16 2019)
 
 
 #install:
