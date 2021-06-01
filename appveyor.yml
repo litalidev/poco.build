@@ -43,7 +43,7 @@ build_script:
   - cmake -Hpoco -Bpoco-x86-debug.build   -G "%generator%"       -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=c:/usr/lib/poco/%version%/x86/debug   -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
 
 
-  - cmake --build poco-x64-release.build -DCMAKE_BUILD_TYPE=Release
+  - cmake --build poco-x64-release.build --config Release
   #
 
 after_build:
