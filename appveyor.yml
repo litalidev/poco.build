@@ -37,19 +37,24 @@ build_script:
   - set
   #- set PATH=C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\bin;%PATH%
   - cmake --version
-  - cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-  - cmake -Hpoco -Bpoco-x86-release.build -G "%generator%" -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x64-debug.build   -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Debug   -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x86-release.build -G "%generator%"       -DCMAKE_BUILD_TYPE=Release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x86-debug.build   -G "%generator%"       -DCMAKE_BUILD_TYPE=Debug   -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
   #- cmake --build poco.build 
   #
 
 after_build:
   - dir/s poco-x64-release.build
   - 7z a poco-appveyor-%version_tag%-x64-release.zip poco-x64-release.build
-  - 7z l poco-appveyor-%version_tag%-x64-release.zip
+  - 7z a poco-appveyor-%version_tag%-x64-debug.zip   poco-x64-debug.build
   - 7z a poco-appveyor-%version_tag%-x86-release.zip poco-x86-release.build
+  - 7z a poco-appveyor-%version_tag%-x86-debug.zip   poco-x86-debug.build
+
+    #- 7z l poco-appveyor-%version_tag%-x64-release.zip
   - 7z l poco-appveyor-%version_tag%-x86-release.zip
 
 artifacts:
-    - path: '**\*.zip'
+    - path: '**\poco-appveyor-*.zip'
 
 
