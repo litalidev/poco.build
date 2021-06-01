@@ -35,7 +35,7 @@ build_script:
   #
 
 after_script:
-    dir/s poco-x64-release.build
-    7z a poco-appveyor-%version_tag%-x64-release.zip poco-x64-release.build
-    7z l poco-appveyor-%version_tag%-x64-release.zip
+  - dir/s poco-x64-release.build
+  - 7z a poco-appveyor-%version_tag%-x64-release.zip poco-x64-release.build
+  - 7z l poco-appveyor-%version_tag%-x64-release.zip
 
