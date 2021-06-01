@@ -34,7 +34,7 @@ build_script:
   #- cmake --build poco.build 
   #
 
-after_script:
+after_build:
   - dir/s poco-x64-release.build
   - 7z a poco-appveyor-%version_tag%-x64-release.zip poco-x64-release.build
   - 7z l poco-appveyor-%version_tag%-x64-release.zip
