@@ -3,7 +3,9 @@
 #
 
 environment:
-  APPVEYOR_RDP_PASSWORD: 
+  ## don't use this password if you clone this project as it is encrypted, you should
+  ## use your owned encrypted password
+  APPVEYOR_RDP_PASSWORD:
     secure: iAt3RbMOcprhUGAV1rABgw==
 
 
@@ -11,12 +13,12 @@ init:
   - set version=1.10.1
   - set version_tag=poco-%version%-release
 
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2015" ( set generator=Visual Studio 14 2015)
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2017" ( set generator=Visual Studio 15 2017)
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2019" ( set generator=Visual Studio 16 2019)
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2015" ( set generator=Visual Studio 14 2015 & set tver=v140)
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2017" ( set generator=Visual Studio 15 2017 & set tver=v141)
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2019" ( set generator=Visual Studio 16 2019 & set tver=v142)
 
 
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 image:
   - Visual Studio 2017
@@ -46,10 +48,10 @@ build_script:
   - set
   #- set PATH=C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\bin;%PATH%
   - cmake --version
-  - cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./usr/lib/poco/%version%/x64/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-  - cmake -Hpoco -Bpoco-x64-debug.build   -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=./usr/lib/poco/%version%/x64/debug   -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-  - cmake -Hpoco -Bpoco-x86-release.build -G "%generator%"       -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./usr/lib/poco/%version%/x86/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-  - cmake -Hpoco -Bpoco-x86-debug.build   -G "%generator%"       -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=./usr/lib/poco/%version%/x86/debug   -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x64-release/usr/lib/poco/%version%/x64/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x64-debug.build   -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x64-debug/usr/lib/poco/%version%/x64/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x86-release.build -G "%generator%"       -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x86-release/usr/lib/poco/%version%/x86/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+  - cmake -Hpoco -Bpoco-x86-debug.build   -G "%generator%"       -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x86-debug/usr/lib/poco/%version%/x86/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
 
 
   ##- cmake --build poco-x64-release.build --config Release
@@ -67,16 +69,14 @@ after_build:
 
 
 test_script:
-  - md poco-x64-release
-  - cd poco-x64-release
-  ##- cmake --install ../poco-x64-release.build 
+  - cmake --install poco-x64-release.build
 
   - dir/s 
-    ##- 7z a poco-appveyor-%version%-x64-release.zip usr
+  - 7z a poco-appveyor-%version%-x64-release.zip    poco-x64-release
 
 artifacts:
     - path: '**\poco-appveyor-*.zip'
 
 on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
