@@ -3,8 +3,8 @@
 #
 
 environment:
-  ## don't use this password if you clone this project as it is encrypted, you should
-  ## use your owned encrypted password
+  # don't use this password if you clone this project as it is encrypted, you should
+  # use your owned encrypted password
   APPVEYOR_RDP_PASSWORD:
     secure: iAt3RbMOcprhUGAV1rABgw==
 
@@ -17,6 +17,7 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2017" ( set generator=Visual Studio 15 2017& set tver=v141)
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2019" ( set generator=Visual Studio 16 2019& set tver=v142)
 
+  - set cmake_flags=-DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=poco-x64-release/usr/lib/poco/%version%/%tver%/%arch%/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
 
     #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
@@ -25,11 +26,11 @@ image:
 
 platform:
   - x64
-  #- x86
+  #- x86 # no need
 
 configuration:
   - Release
-  #- Debug
+  #- Debug # no need
 
 
 
@@ -48,31 +49,39 @@ build_script:
   - set
   #- set PATH=C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\bin;%PATH%
   - cmake --version
-  - cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x64-release/usr/lib/poco/%version%/x64/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-  - cmake -Hpoco -Bpoco-x64-debug.build   -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x64-debug/usr/lib/poco/%version%/x64/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-  - cmake -Hpoco -Bpoco-x86-release.build -G "%generator%"       -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x86-release/usr/lib/poco/%version%/x86/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-  - cmake -Hpoco -Bpoco-x86-debug.build   -G "%generator%"       -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x86-debug/usr/lib/poco/%version%/x86/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+
+  - set arch=x64&config=release&build_type=Release&build_arch= Win64
+  - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%generator%%build_arch%" -DCMAKE_BUILD_TYPE=%build_type% %cmake_flags%
+  - set arch=x64&config=debug&build_type=Debug&build_arch= Win64
+  - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%generator%%build_arch%" -DCMAKE_BUILD_TYPE=%build_type% %cmake_flags%
+
+  ##-cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release %cmake_flags%
+
+    ##- cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x64-release/usr/lib/poco/%version%/x64/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+    ##- cmake -Hpoco -Bpoco-x64-debug.build   -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x64-debug/usr/lib/poco/%version%/x64/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+    ##- cmake -Hpoco -Bpoco-x86-release.build -G "%generator%"       -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x86-release/usr/lib/poco/%version%/x86/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
+    ##- cmake -Hpoco -Bpoco-x86-debug.build   -G "%generator%"       -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x86-debug/usr/lib/poco/%version%/x86/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
 
 
-  - cmake --build poco-x64-release.build --config Release
+    ##- cmake --build poco-x64-release.build --config Release
   
 
 after_build:
-  - dir/s poco-x64-release.build
+    ##- dir/s poco-x64-release.build
 
-  - 7z a poco-appveyor-%version%-x64-release-build.zip poco-x64-release.build
-  - 7z a poco-appveyor-%version%-x64-debug-build.zip   poco-x64-debug.build
-  - 7z a poco-appveyor-%version%-x86-release-build.zip poco-x86-release.build
-  - 7z a poco-appveyor-%version%-x86-debug-build.zip   poco-x86-debug.build
+    ##- 7z a poco-appveyor-%version%-x64-release-build.zip poco-x64-release.build
+    ##- 7z a poco-appveyor-%version%-x64-debug-build.zip   poco-x64-debug.build
+    ##- 7z a poco-appveyor-%version%-x86-release-build.zip poco-x86-release.build
+    ##- 7z a poco-appveyor-%version%-x86-debug-build.zip   poco-x86-debug.build
 
-  - 7z l poco-appveyor-%version%-x86-release-build.zip
+    ##- 7z l poco-appveyor-%version%-x86-release-build.zip
 
 
 test_script:
-  - cmake --install poco-x64-release.build
+    ##- cmake --install poco-x64-release.build
 
-  - dir/s 
-  - 7z a poco-appveyor-%version%-x64-release.zip    poco-x64-release
+    - dir/s 
+    ##- 7z a poco-appveyor-%version%-x64-release.zip    poco-x64-release
 
 artifacts:
     - path: '**\poco-appveyor-*.zip'
