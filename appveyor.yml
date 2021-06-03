@@ -17,6 +17,7 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2017" ( set generator=Visual Studio 15 2017& set tver=v141)
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%" =="Visual Studio 2019" ( set generator=Visual Studio 16 2019& set tver=v142)
 
+  - setlocal ENABLEDELAYEDEXPANSION
   - set cmake_flags=-DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=poco-x64-release/usr/lib/poco/%version%/%tver%/%%arch%%/!config! -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
 
     #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -39,10 +40,10 @@ configuration:
   #
 
 before_build:
-  - git clone https://github.com/pocoproject/poco.git
-  - cd poco
-  - git checkout %version_tag%
-  - cd ..
+    ##- git clone https://github.com/pocoproject/poco.git
+    ##- cd poco
+    ##- git checkout %version_tag%
+    ##- cd ..
 
 
 build_script:
@@ -81,12 +82,13 @@ after_build:
 test_script:
     ##- cmake --install poco-x64-release.build
 
-    - dir/s 
+    ##- dir/s 
     ##- 7z a poco-appveyor-%version%-x64-release.zip    poco-x64-release
 
 artifacts:
     - path: '**\poco-appveyor-*.zip'
 
 on_finish:
+    - endlocal
     #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
