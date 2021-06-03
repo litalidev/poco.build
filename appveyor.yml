@@ -46,6 +46,7 @@ before_build:
     ##- cd ..
 
 
+
 build_script:
   - set
   #- set PATH=C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\bin;%PATH%
@@ -60,8 +61,8 @@ build_script:
   - set arch=x86&set "build_arch=%empty%"&set config=release&set build_type=Release
   - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%generator%%build_arch%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
 
-  - set arch=x86&set build_arch=%empty%&set config=debug&set build_type=Debug
-  - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%generator%%build_arch%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
+  - set arch=x86&set config=debug&set build_type=Debug&set build_arch="
+  - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%generator%%build_arch% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
 
   ##-cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release %cmake_flags%
 
