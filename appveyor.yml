@@ -61,9 +61,9 @@ build_script:
   - echo *                                           *
   - echo *********************************************
   - set arch=x64&set config=release&set build_type=Release&set gen=%generator64%
-  - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
-  - echo cmake --build   poco-%arch%-%config%.build --config %build_type%
-  - echo cmake --install poco-%arch%-%config%.build
+  - cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
+  - cmake --build   poco-%arch%-%config%.build --config %build_type%
+  - cmake --install poco-%arch%-%config%.build
 
   - echo.
   - echo *********************************************
@@ -84,8 +84,8 @@ build_script:
   - echo *********************************************
   - set arch=x86&set config=release&set build_type=Release&set gen=%generator%
   - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
-  - cmake --build   poco-%arch%-%config%.build --config %build_type%
-  - cmake --install poco-%arch%-%config%.build
+  - echo cmake --build   poco-%arch%-%config%.build --config %build_type%
+  - echo cmake --install poco-%arch%-%config%.build
 
   - echo.
   - echo *********************************************
@@ -94,9 +94,9 @@ build_script:
   - echo *                                           *
   - echo *********************************************
   - set arch=x86&set config=debug&set build_type=Debug&set gen=%generator%
-  - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
-  - echo cmake --build   poco-%arch%-%config%.build --config %build_type%
-  - echo cmake --install poco-%arch%-%config%.build
+  - cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
+  - cmake --build   poco-%arch%-%config%.build --config %build_type%
+  - cmake --install poco-%arch%-%config%.build
 
 
 
@@ -113,9 +113,25 @@ build_script:
   
 
 after_build:
-    - dir/s poco-x86-release.build
-    - 7z a poco-appveyor-%version%-x86-release.zip    poco-x86-release
-    - 7z a poco-appveyor-%version%-x86-release-build.zip poco-x86-release.build
+    ##### x64 release #####
+    - dir/s poco-x64-release.build
+    - 7z a poco-appveyor-%version%-x64-release.zip    poco-x64-release
+    - 7z a poco-appveyor-%version%-x64-release-build.zip poco-x64-release.build
+
+    ##### x64 debug   #####
+    ##- dir/s poco-x64-debug.build
+    ##- 7z a poco-appveyor-%version%-x64-debug.zip    poco-x64-debug
+    ##- 7z a poco-appveyor-%version%-x64-debug-build.zip poco-x64-debug.build
+
+    ##### x86 release #####
+    ##- dir/s poco-x86-release.build
+    ##- 7z a poco-appveyor-%version%-x86-release.zip    poco-x86-release
+    ##- 7z a poco-appveyor-%version%-x86-release-build.zip poco-x86-release.build
+
+    ##### x86 debug   #####
+    - dir/s poco-x86-debug.build
+    - 7z a poco-appveyor-%version%-x86-debug.zip    poco-x86-debug
+    - 7z a poco-appveyor-%version%-x86-debug-build.zip poco-x86-debug.build
 
     ##- dir/s poco-x64-release.build
 
