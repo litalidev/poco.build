@@ -41,10 +41,10 @@ configuration:
   #
 
 before_build:
-    git clone https://github.com/pocoproject/poco.git
-    cd poco
-    git checkout %version_tag%
-    cd ..
+    - git clone https://github.com/pocoproject/poco.git
+    - cd poco
+    - git checkout %version_tag%
+    - cd ..
 
 
 
