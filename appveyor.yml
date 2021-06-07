@@ -106,9 +106,9 @@ build_script:
 
 after_build:
     ##### x64 release #####
-    - dir/s poco-x64-release.build
-    - 7z a poco-appveyor-%version%-x64-release.zip    poco-x64-release
-    - 7z a poco-appveyor-%version%-x64-release-build.zip poco-x64-release.build
+    ##- dir/s poco-x64-release.build
+    ##- 7z a poco-appveyor-%version%-x64-release.zip    poco-x64-release
+    ##- 7z a poco-appveyor-%version%-x64-release-build.zip poco-x64-release.build
 
     ##### x64 debug   #####
     ##- dir/s poco-x64-debug.build
