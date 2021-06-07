@@ -59,9 +59,9 @@ build_script:
   - echo *                                           *
   - echo *********************************************
   - set arch=x64&set config=release&set build_type=Release&set gen=%generator64%
-  - cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
-  - cmake --build   poco-%arch%-%config%.build --config %build_type%
-  - cmake --install poco-%arch%-%config%.build
+  - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
+  - echo cmake --build   poco-%arch%-%config%.build --config %build_type%
+  - echo cmake --install poco-%arch%-%config%.build --config %build_type%
 
   - echo.
   - echo *********************************************
@@ -72,7 +72,7 @@ build_script:
   - set arch=x64&set config=debug&set build_type=Debug&set gen=%generator64%
   - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
   - echo cmake --build   poco-%arch%-%config%.build --config %build_type%
-  - echo cmake --install poco-%arch%-%config%.build
+  - echo cmake --install poco-%arch%-%config%.build --config %build_type%
 
   - echo.
   - echo *********************************************
@@ -83,7 +83,7 @@ build_script:
   - set arch=x86&set config=release&set build_type=Release&set gen=%generator%
   - echo cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
   - echo cmake --build   poco-%arch%-%config%.build --config %build_type%
-  - echo cmake --install poco-%arch%-%config%.build
+  - echo cmake --install poco-%arch%-%config%.build --config %build_type%
 
   - echo.
   - echo *********************************************
@@ -94,7 +94,7 @@ build_script:
   - set arch=x86&set config=debug&set build_type=Debug&set gen=%generator%
   - cmake -Hpoco -Bpoco-%arch%-%config%.build -G "%gen%" -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_INSTALL_PREFIX=poco-%arch%-%config%/usr/lib/poco/%version%/%tver%/%arch%/%config% %cmake_flags%
   - cmake --build   poco-%arch%-%config%.build --config %build_type%
-  - cmake --install poco-%arch%-%config%.build
+  - cmake --install poco-%arch%-%config%.build --config %build_type%
 
 
 
