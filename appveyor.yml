@@ -20,9 +20,8 @@ init:
 
   - set generator64=%generator% Win64
 
-  #- set cmake_flags=-DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=poco-x64-release/usr/lib/poco/%version%/%tver%/%%arch%%/!config! -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
 
-    #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 image:
   - Visual Studio 2017
@@ -38,20 +37,19 @@ configuration:
 
 
 #install:
-  #- cinst cmake
+  #- cinst cmake # no need, use the stock version
   #
 
 before_build:
-    ##- git clone https://github.com/pocoproject/poco.git
-    ##- cd poco
-    ##- git checkout %version_tag%
-    ##- cd ..
+    git clone https://github.com/pocoproject/poco.git
+    cd poco
+    git checkout %version_tag%
+    cd ..
 
 
 
 build_script:
   - set
-  #- set PATH=C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\bin;%PATH%
   - cmake --version
 
   - echo.
@@ -102,12 +100,6 @@ build_script:
 
 
 
-  ##-cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release %cmake_flags%
-
-    ##- cmake -Hpoco -Bpoco-x64-release.build -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x64-release/usr/lib/poco/%version%/x64/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-    ##- cmake -Hpoco -Bpoco-x64-debug.build   -G "%generator% Win64" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x64-debug/usr/lib/poco/%version%/x64/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-    ##- cmake -Hpoco -Bpoco-x86-release.build -G "%generator%"       -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=poco-x86-release/usr/lib/poco/%version%/x86/release -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
-    ##- cmake -Hpoco -Bpoco-x86-debug.build   -G "%generator%"       -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=poco-x86-debug/usr/lib/poco/%version%/x86/debug     -DENABLE_NETSSL=OFF -DENABLE_CRYPTO=OFF -DENABLE_JWT=OFF -DENABLE_DATA_ODBC=OFF -DENABLE_DATA_MYSQL=OFF -DENABLE_DATA_POSTGRESQL=OFF
 
 
   
@@ -133,14 +125,6 @@ after_build:
     - 7z a poco-appveyor-%version%-x86-debug.zip    poco-x86-debug
     - 7z a poco-appveyor-%version%-x86-debug-build.zip poco-x86-debug.build
 
-    ##- dir/s poco-x64-release.build
-
-    ##- 7z a poco-appveyor-%version%-x64-release-build.zip poco-x64-release.build
-    ##- 7z a poco-appveyor-%version%-x64-debug-build.zip   poco-x64-debug.build
-    ##- 7z a poco-appveyor-%version%-x86-release-build.zip poco-x86-release.build
-    ##- 7z a poco-appveyor-%version%-x86-debug-build.zip   poco-x86-debug.build
-
-    ##- 7z l poco-appveyor-%version%-x86-release-build.zip
 
 
 test_script:
